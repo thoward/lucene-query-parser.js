@@ -112,7 +112,7 @@ node
                     
         if (right != null) 
         { 
-            node['operator'] = operator==''? 'OR' : operator[0];
+            node['operator'] = operator==''? '<implicit>' : operator[0];
             node['right'] = right;
         } 
         

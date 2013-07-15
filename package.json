@@ -1,0 +1,33 @@
+{
+  "name": "lucene-query-parser",
+  "version": "0.0.1",
+  "description": "Lucene Query Parser for Javascript created using PEG.js",
+  "main": "lucene-query-parser.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "build": "./node_modules/.bin/pegjs ./lucene-query.grammar lucene-query-parser.js",
+    "test": "./node_modules/.bin/jasmine-node ./test/ --verbose",
+    "prepublish": "npm run-script build && npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mahnunchik/lucene-query-parser.git"
+  },
+  "keywords": [
+    "lucene",
+    "query",
+    "parser",
+    "pegjs"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mahnunchik/lucene-query-parser/issues"
+  },
+  "devDependencies": {
+    "pegjs": "0.7.x",
+    "jasmine-node": "1.10.x"
+  }
+}

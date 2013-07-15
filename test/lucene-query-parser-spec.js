@@ -1,3 +1,5 @@
+var lucenequeryparser = require('../')
+
 describe("lucenequeryparser: whitespace handling", function() {
 
     // term parsing
@@ -142,7 +144,7 @@ describe("lucenequeryparser: conjunction operators", function() {
         var results = lucenequeryparser.parse('fizz buzz');
         
         expect(results['left']['term']).toBe('fizz');
-        expect(results['operator']).toBe('OR');
+        expect(results['operator']).toBe('<implicit>');
         expect(results['right']['term']).toBe('buzz');
     });
     
@@ -193,12 +195,12 @@ describe("lucenequeryparser: parentheses groups", function() {
         var results = lucenequeryparser.parse('fizz (buzz baz)');
         
         expect(results['left']['term']).toBe('fizz');
-        expect(results['operator']).toBe('OR');
+        expect(results['operator']).toBe('<implicit>');
         
         var rightNode = results['right'];
         
         expect(rightNode['left']['term']).toBe('buzz');
-        expect(rightNode['operator']).toBe('OR');
+        expect(rightNode['operator']).toBe('<implicit>');
         expect(rightNode['right']['term']).toBe('baz');
     });
     
@@ -241,7 +243,8 @@ describe("lucenequeryparser: Lucene Query syntax documentation examples", functi
 
     /*  
         Examples from Lucene documentation at 
-                http://lucene.apache.org/java/2_9_4/queryparsersyntax.html
+        
+        http://lucene.apache.org/java/2_9_4/queryparsersyntax.html
         
         title:"The Right Way" AND text:go
         title:"Do it right" AND right
@@ -297,13 +300,13 @@ describe("lucenequeryparser: Lucene Query syntax documentation examples", functi
         
         expect(results['left']['field']).toBe('title');
         expect(results['left']['term']).toBe('Do');
-        expect(results['operator']).toBe('OR');
+        expect(results['operator']).toBe('<implicit>');
         
         var rightNode = results['right'];
         
         expect(rightNode['left']['field']).toBe('<implicit>');
         expect(rightNode['left']['term']).toBe('it');
-        expect(rightNode['operator']).toBe('OR');
+        expect(rightNode['operator']).toBe('<implicit>');
         
         expect(rightNode['right']['field']).toBe('<implicit>');
         expect(rightNode['right']['term']).toBe('right');
@@ -377,7 +380,7 @@ describe("lucenequeryparser: Lucene Query syntax documentation examples", functi
         
         expect(results['left']['field']).toBe('<implicit>');
         expect(results['left']['term']).toBe('jakarta');
-        expect(results['operator']).toBe('OR');
+        expect(results['operator']).toBe('<implicit>');
         expect(results['right']['field']).toBe('<implicit>');
         expect(results['right']['term']).toBe('apache');        
     });
@@ -388,7 +391,7 @@ describe("lucenequeryparser: Lucene Query syntax documentation examples", functi
         expect(results['left']['field']).toBe('<implicit>');
         expect(results['left']['term']).toBe('jakarta');
         expect(results['left']['boost']).toBe(4);        
-        expect(results['operator']).toBe('OR');
+        expect(results['operator']).toBe('<implicit>');
         expect(results['right']['field']).toBe('<implicit>');
         expect(results['right']['term']).toBe('apache');        
     });        
@@ -400,7 +403,7 @@ describe("lucenequeryparser: Lucene Query syntax documentation examples", functi
         expect(results['left']['field']).toBe('<implicit>');
         expect(results['left']['term']).toBe('jakarta apache');
         expect(results['left']['boost']).toBe(4);
-        expect(results['operator']).toBe('OR');
+        expect(results['operator']).toBe('<implicit>');
         expect(results['right']['field']).toBe('<implicit>');
         expect(results['right']['term']).toBe('Apache Lucene');
 
@@ -411,7 +414,7 @@ describe("lucenequeryparser: Lucene Query syntax documentation examples", functi
         
         expect(results['left']['field']).toBe('<implicit>');
         expect(results['left']['term']).toBe('jakarta apache');
-        expect(results['operator']).toBe('OR');
+        expect(results['operator']).toBe('<implicit>');
         expect(results['right']['field']).toBe('<implicit>');
         expect(results['right']['term']).toBe('jakarta');        
     });
@@ -468,7 +471,7 @@ describe("lucenequeryparser: Lucene Query syntax documentation examples", functi
         
         expect(results['left']['field']).toBe('<implicit>');
         expect(results['left']['term']).toBe('jakarta apache');
-        expect(results['operator']).toBe('OR');
+        expect(results['operator']).toBe('<implicit>');
         expect(results['right']['field']).toBe('<implicit>');
         expect(results['right']['term']).toBe('Apache Lucene');
         expect(results['right']['prefix']).toBe('-');
@@ -497,7 +500,7 @@ describe("lucenequeryparser: Lucene Query syntax documentation examples", functi
         expect(leftNode['left']['field']).toBe('<implicit>');
         expect(leftNode['left']['term']).toBe('return');
         expect(leftNode['left']['prefix']).toBe('+');
-        expect(leftNode['operator']).toBe('OR');
+        expect(leftNode['operator']).toBe('<implicit>');
         expect(leftNode['right']['field']).toBe('<implicit>');
         expect(leftNode['right']['term']).toBe('pink panther');
         expect(leftNode['right']['prefix']).toBe('+');
