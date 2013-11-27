@@ -102,6 +102,14 @@ describe("lucenequeryparser: field name support", function() {
         expect(results['left']['term']).toBe('bar');
     });
 
+    it("parses explicit field name including dots (e.g 'sub.field') for term", function() {        
+        var results = lucenequeryparser.parse('sub.foo:bar');
+
+        expect(results['left']['field']).toBe('sub.foo');
+        expect(results['left']['term']).toBe('bar');
+    });
+
+
     it("parses explicit field name for quoted term", function() {        
         var results = lucenequeryparser.parse('foo:"fizz buzz"');
 
@@ -136,6 +144,7 @@ describe("lucenequeryparser: field name support", function() {
         expect(results['left']['term']).toBe('fizz buzz');
         expect(results['left']['prefix']).toBe('+');
     });
+    
 });
 
 describe("lucenequeryparser: conjunction operators", function() {
