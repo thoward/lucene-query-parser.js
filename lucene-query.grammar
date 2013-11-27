@@ -207,10 +207,14 @@ term
     }
 
 unquoted_term
-  = term:[^: \t\r\n\f\{\}()"+-/^~\[\]]+
+  = term:term_char+
     { 
         return term.join('');
     }
+
+term_char
+  = '.' / [^: \t\r\n\f\{\}()"+-/^~\[\]]
+
     
 quoted_term
   = '"' term:[^"]+ '"'
