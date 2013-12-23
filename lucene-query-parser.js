@@ -45,6 +45,7 @@ module.exports = (function(){
         "fieldname": parse_fieldname,
         "term": parse_term,
         "unquoted_term": parse_unquoted_term,
+        "term_char": parse_term_char,
         "quoted_term": parse_quoted_term,
         "proximity_modifier": parse_proximity_modifier,
         "boost_modifier": parse_boost_modifier,
@@ -688,28 +689,12 @@ module.exports = (function(){
         var pos0;
         
         pos0 = pos;
-        if (/^[^: \t\r\n\f{}()"+-\/^~[\]]/.test(input.charAt(pos))) {
-          result1 = input.charAt(pos);
-          pos++;
-        } else {
-          result1 = null;
-          if (reportFailures === 0) {
-            matchFailed("[^: \\t\\r\\n\\f{}()\"+-\\/^~[\\]]");
-          }
-        }
+        result1 = parse_term_char();
         if (result1 !== null) {
           result0 = [];
           while (result1 !== null) {
             result0.push(result1);
-            if (/^[^: \t\r\n\f{}()"+-\/^~[\]]/.test(input.charAt(pos))) {
-              result1 = input.charAt(pos);
-              pos++;
-            } else {
-              result1 = null;
-              if (reportFailures === 0) {
-                matchFailed("[^: \\t\\r\\n\\f{}()\"+-\\/^~[\\]]");
-              }
-            }
+            result1 = parse_term_char();
           }
         } else {
           result0 = null;
@@ -721,6 +706,32 @@ module.exports = (function(){
         }
         if (result0 === null) {
           pos = pos0;
+        }
+        return result0;
+      }
+      
+      function parse_term_char() {
+        var result0;
+        
+        if (input.charCodeAt(pos) === 46) {
+          result0 = ".";
+          pos++;
+        } else {
+          result0 = null;
+          if (reportFailures === 0) {
+            matchFailed("\".\"");
+          }
+        }
+        if (result0 === null) {
+          if (/^[^: \t\r\n\f{}()"+-\/^~[\]]/.test(input.charAt(pos))) {
+            result0 = input.charAt(pos);
+            pos++;
+          } else {
+            result0 = null;
+            if (reportFailures === 0) {
+              matchFailed("[^: \\t\\r\\n\\f{}()\"+-\\/^~[\\]]");
+            }
+          }
         }
         return result0;
       }
