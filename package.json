@@ -1,6 +1,6 @@
 {
   "name": "lucene-query-parser",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Lucene Query Parser for Javascript created using PEG.js",
   "main": "lucene-query-parser.js",
   "directories": {
