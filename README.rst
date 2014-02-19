@@ -62,7 +62,7 @@ Community
 If you'd like to help out with the project, or if you have a question, feel free to contact 
 Troy Howard at thoward37@gmail.com. 
 
-Bug reports or feature requests should go in the bitbucket issue tracker. Please include relevant 
+Bug reports or feature requests should go in the Github issue tracker. Please include relevant 
 sample data (the query) and a good description of the challenges you're facing.
 
-Look to the wiki for documentation and other resources. 
+Look to the `wiki  <https://github.com/thoward/lucene-query-parser.js/wiki>`_ for documentation and other resources. 
