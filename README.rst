@@ -38,7 +38,7 @@ A slightly more complicated example::
 Unit Tests
 ========================================
 
-To run the unit tests, just open SpecRunner.html in any browser. Unit tests are built with 
+To run the unit tests, just open `SpecRunner.html <https://rawgithub.com/thoward/lucene-query-parser.js/master/test/SpecRunner.html>`_ in any browser. Unit tests are built with 
 `Jasmine  <http://pivotal.github.com/jasmine/>`_.
 
 
