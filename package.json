@@ -1,0 +1,44 @@
+{
+  "name": "lucene-query-parser",
+  "version": "1.0.1",
+  "description": "Lucene Query Parser for Javascript created using PEG.js",
+  "main": "lib/lucene-query-parser.js",
+  "scripts": {
+    "build": "PEG_OUT=`cat lib/lucene-query.grammar | node_modules/pegjs/bin/pegjs` && printf \"if (typeof define !== 'function') { var define = require('amdefine')(module) };\n\ndefine([], function() { \nvar module = {};\n%s\nreturn module.exports;\n});\n\"  \"$PEG_OUT\" > ./lib/lucene-query-parser.js",
+    "test": "./node_modules/.bin/jasmine-node ./spec/ --verbose",
+    "prepublish": "npm run-script build && npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/thoward/lucene-query-parser.js.git"
+  },
+  "keywords": [
+    "lucene",
+    "query",
+    "parser",
+    "pegjs"
+  ],
+  "author": {
+    "name": "Troy Howard",
+    "email": "thoward37@gmail.com",
+    "url": "http://github.com/thoward"
+  },
+  "contributors": [
+    {
+      "name": "Eugeny Vlasenko",
+      "email": "mahnunchik@gmail.com",
+      "url": "http://mahnunchik.tumblr.com/"
+    }
+  ],
+  "license": "Apache 2.0",
+  "bugs": {
+    "url": "https://github.com/thoward/lucene-query-parser.js/issues"
+  },
+  "dependencies": {
+    "amdefine": ">=0.0.2"
+  },
+  "devDependencies": {
+    "pegjs": "0.7.x",
+    "jasmine-node": "1.10.x"
+  }
+}

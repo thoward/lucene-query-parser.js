@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Load RequireJS -->
+  <script type="text/javascript" src="../../vendor/require.js"></script>
+</head>
+<body>
+  <h3>Query Text</h3>
+  <textarea
+    id="query_text"
+    placeholder="Enter query text here..."
+    rows="4"
+    cols="120"
+    onkeyup="parse_query()"
+  >title:"The Right Way" AND text:go</textarea>
+
+  <h3>Parser Output</h3>
+  <hr />
+  <p>
+    <code id="parser_output">
+    </code>
+  </p>
+
+  <script type="text/javascript">
+    function parse_query() {
+
+      require(['../../lib/lucene-query-parser.js'], function(parser) {
+
+        // get query text
+        var query_text = document.getElementById('query_text').value;
+
+        // parse query
+        var results = parser.parse(query_text);
+
+        // convert to pretty-printed JSON
+        results = JSON.stringify(results, undefined, 2);
+        results = results.replace(/\n/g, "<br>").replace(/[ ]/g, "&nbsp;");
+
+        // display results
+        document.getElementById('parser_output').innerHTML = results
+      });
+    }
+
+    parse_query();
+  </script>
+</body>
+</html>
