@@ -1,6 +1,6 @@
 {
   "name": "lucene-query-parser",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Lucene Query Parser for Javascript created using PEG.js",
   "main": "lib/lucene-query-parser.js",
   "scripts": {
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/thoward/lucene-query-parser.git"
+    "url": "git://github.com/thoward/lucene-query-parser.js.git"
   },
   "keywords": [
     "lucene",
@@ -32,7 +32,7 @@
   ],
   "license": "Apache 2.0",
   "bugs": {
-    "url": "https://github.com/thoward/lucene-query-parser/issues"
+    "url": "https://github.com/thoward/lucene-query-parser.js/issues"
   },
   "dependencies": {
     "amdefine": ">=0.0.2"
