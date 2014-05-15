@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Jasmine Test Runner</title>
+
+    <!-- Jasmine -->
+    <link rel="stylesheet" type="text/css" href="../node_modules/jasmine-node/node_modules/jasmine-reporters/ext/jasmine.css"/>
+    <script type="text/javascript" src="../node_modules/jasmine-node/node_modules/jasmine-reporters/ext/jasmine.js"></script>
+    <script type="text/javascript" src="../node_modules/jasmine-node/node_modules/jasmine-reporters/ext/jasmine-html.js"></script>
+
+    <!-- RequireJS -->
+    <script type="text/javascript" src="../vendor/require.js"></script>
+
+  </head>
+
+  <body>
+    <script type="text/javascript">
+      require.config({
+        baseUrl: './'
+      });
+
+      require([
+        '../spec/lucene-query-parser.spec.js'
+      ], function() {
+        jasmine.getEnv().addReporter(new jasmine.TrivialReporter());
+        jasmine.getEnv().execute();
+      });
+    </script>
+  </body>
+</html>
