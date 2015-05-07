@@ -112,7 +112,7 @@ node
 
         if (right != null)
         {
-            node['operator'] = operator==''? '<implicit>' : operator[0];
+            node['operator'] = operator=='' || operator==undefined ? '<implicit>' : operator[0];
             node['right'] = right;
         }
 
@@ -136,7 +136,7 @@ field_exp
   = fieldname:fieldname? range:range_operator_exp
     {
         range['field'] =
-            fieldname == ''
+            fieldname == '' || fieldname == undefined
                 ? "<implicit>"
                 : fieldname;
 
@@ -151,7 +151,7 @@ field_exp
     {
         var fieldexp = {
             'field':
-                fieldname == ''
+                fieldname == '' || fieldname == undefined
                     ? "<implicit>"
                     : fieldname
             };
@@ -263,7 +263,7 @@ boost_modifier
 fuzzy_modifier
   = '~' fuzziness:decimal_exp?
     {
-        return fuzziness == '' ? 0.5 : fuzziness;
+        return fuzziness == '' || fuzziness == undefined ? 0.5 : fuzziness;
     }
 
 decimal_or_int_exp
