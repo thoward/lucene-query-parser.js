@@ -47,6 +47,32 @@ describe("lucenequeryparser: term parsing", function() {
 
         expect(results['left']['term']).toBe('fizz buzz');
     });
+
+    it("parses terms with +", function() {
+        var results = lucenequeryparser.parse('fizz+buzz');
+
+        expect(results['left']['term']).toBe('fizz+buzz');
+    });
+
+    it("parses terms with -", function() {
+        var results = lucenequeryparser.parse('fizz-buzz');
+
+        expect(results['left']['term']).toBe('fizz-buzz');
+    });
+
+    it("parses term with regular expression", function() {
+        var results = lucenequeryparser.parse('/bar/');
+
+        expect(results['left']['term']).toBe('bar');
+        expect(results['left']['regexpr']).toBe(true);
+    });
+
+    it("parses term with regular expression containing /", function() {
+        var results = lucenequeryparser.parse('/fizz\\/buzz/');
+
+        expect(results['left']['term']).toBe('fizz/buzz');
+        expect(results['left']['regexpr']).toBe(true);
+    });
 });
 
 describe("lucenequeryparser: term prefix operators", function() {
@@ -182,6 +208,7 @@ describe("lucenequeryparser: conjunction operators", function() {
         expect(results['right']['term']).toBe('buzz');
     });
 
+
     it("parses explicit conjunction operator (&&)", function() {
         var results = lucenequeryparser.parse('fizz && buzz');
 
@@ -195,6 +222,14 @@ describe("lucenequeryparser: conjunction operators", function() {
 
         expect(results['left']['term']).toBe('fizz');
         expect(results['operator']).toBe('OR');
+        expect(results['right']['term']).toBe('buzz');
+    });
+
+    it("parses explicit conjunction operator (!)", function() {
+        var results = lucenequeryparser.parse('fizz ! buzz');
+
+        expect(results['left']['term']).toBe('fizz');
+        expect(results['operator']).toBe('NOT');
         expect(results['right']['term']).toBe('buzz');
     });
 });
