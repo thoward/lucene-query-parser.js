@@ -47,6 +47,18 @@ describe("lucenequeryparser: term parsing", function() {
 
         expect(results['left']['term']).toBe('fizz buzz');
     });
+
+    it("accepts terms with '-'", function() {
+        var results = lucenequeryparser.parse('created_at>now-5d');
+
+        expect(results['left']['term']).toBe('now-5d');
+    });
+
+    it("accepts terms with '+'", function() {
+        var results = lucenequeryparser.parse('published_at>now+5d');
+
+        expect(results['left']['term']).toBe('now+5d');
+    });
 });
 
 describe("lucenequeryparser: term prefix operators", function() {
