@@ -163,7 +163,7 @@ field_exp
     }
 
 fieldname
-  = fieldname:unquoted_term [:]
+  = fieldname:unquoted_term [:<>]
     {
         return fieldname;
     }
@@ -213,7 +213,7 @@ unquoted_term
     }
 
 term_char
-  = '.' / [^: \t\r\n\f\{\}()"+/^~\[\]]
+  = '.' / [^: <>\t\r\n\f\{\}()"+/^~\[\]]
 
 
 quoted_term
