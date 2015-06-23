@@ -249,6 +249,24 @@ describe("lucenequeryparser: range expressions", function() {
     });
 });
 
+describe("lucenequeryparser: term seperator", function() {
+  it("accepts > as field/term separator", function() {
+    var results = lucenequeryparser.parse('created_at>yesterday');
+
+    expect(results['left']['field']).toBe('created_at');
+    expect(results['left']['term']).toBe('yesterday');
+    expect(results['left']['separator']).toBe('>');
+  });
+
+  it("accepts < as field/term separator", function() {
+    var results = lucenequeryparser.parse('created_at<today');
+
+    expect(results['left']['field']).toBe('created_at');
+    expect(results['left']['term']).toBe('today');
+    expect(results['left']['separator']).toBe('<');
+  });
+});
+
 describe("lucenequeryparser: Lucene Query syntax documentation examples", function() {
 
     /*
