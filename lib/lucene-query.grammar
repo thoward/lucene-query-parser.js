@@ -138,19 +138,13 @@ field_exp
         range['field'] =
             fieldname == ''
                 ? "<implicit>"
-                : fieldname['name'];
-
-        range['separator'] =
-                fieldname == ''
-                    ? null
-                    : fieldname['separator'];
+                : fieldname;
 
         return range;
     }
   / fieldname:fieldname node:paren_exp
     {
-        node['field']= fieldname['name'];
-        node['separator']= fieldname['separator'];
+        node['field']= fieldname;
         return node;
     }
   / fieldname:fieldname? term:term
@@ -159,11 +153,7 @@ field_exp
             'field':
                 fieldname == ''
                     ? "<implicit>"
-                    : fieldname['name'],
-             'separator':
-                fieldname == ''
-                    ? null
-                    : fieldname['separator']
+                    : fieldname
             };
 
         for(var key in term)
@@ -173,13 +163,10 @@ field_exp
     }
 
 fieldname
-  = fieldname:unquoted_term separator:separator
+  = fieldname:unquoted_term [:]
     {
-        return {'name': fieldname, 'separator': separator}
+        return fieldname;
     }
-
-separator
-  = [>:<]
 
 term
   = op:prefix_operator_exp? term:quoted_term proximity:proximity_modifier? boost:boost_modifier? _*
@@ -226,8 +213,7 @@ unquoted_term
     }
 
 term_char
-  = '.' / [^: <>\t\r\n\f\{\}()"/^~\[\]]
-
+  = '.' / [^: \t\r\n\f\{\}()"/^~\[\]]
 
 quoted_term
   = '"' term:[^"]+ '"'
