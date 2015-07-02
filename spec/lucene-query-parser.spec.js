@@ -49,15 +49,15 @@ describe("lucenequeryparser: term parsing", function() {
     });
 
     it("accepts terms with '-'", function() {
-        var results = lucenequeryparser.parse('created_at>now-5d');
+        var results = lucenequeryparser.parse('created_at:>now-5d');
 
-        expect(results['left']['term']).toBe('now-5d');
+        expect(results['left']['term']).toBe('>now-5d');
     });
 
     it("accepts terms with '+'", function() {
-        var results = lucenequeryparser.parse('published_at>now+5d');
+        var results = lucenequeryparser.parse('published_at:>now+5d');
 
-        expect(results['left']['term']).toBe('now+5d');
+        expect(results['left']['term']).toBe('>now+5d');
     });
 });
 
@@ -259,24 +259,6 @@ describe("lucenequeryparser: range expressions", function() {
         expect(results['left']['term_max']).toBe('baz');
         expect(results['left']['inclusive']).toBe(false);
     });
-});
-
-describe("lucenequeryparser: term seperator", function() {
-  it("accepts > as field/term separator", function() {
-    var results = lucenequeryparser.parse('created_at>yesterday');
-
-    expect(results['left']['field']).toBe('created_at');
-    expect(results['left']['term']).toBe('yesterday');
-    expect(results['left']['separator']).toBe('>');
-  });
-
-  it("accepts < as field/term separator", function() {
-    var results = lucenequeryparser.parse('created_at<today');
-
-    expect(results['left']['field']).toBe('created_at');
-    expect(results['left']['term']).toBe('today');
-    expect(results['left']['separator']).toBe('<');
-  });
 });
 
 describe("lucenequeryparser: Lucene Query syntax documentation examples", function() {
