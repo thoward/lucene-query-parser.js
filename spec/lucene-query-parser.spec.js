@@ -115,6 +115,13 @@ describe("lucenequeryparser: field name support", function() {
         expect(results['left']['term']).toBe('bar');
     });
 
+    it("parses explicit field name for date term", function() {
+        var results = lucenequeryparser.parse('foo:2015-01-01');
+
+        expect(results['left']['field']).toBe('foo');
+        expect(results['left']['term']).toBe('2015-01-01');
+    });
+
     it("parses explicit field name including dots (e.g 'sub.field') for term", function() {
         var results = lucenequeryparser.parse('sub.foo:bar');
 
