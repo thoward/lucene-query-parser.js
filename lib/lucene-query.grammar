@@ -261,7 +261,9 @@ range_operator_exp
         return {
             'term_min': term_min,
             'term_max': term_max,
-            'inclusive': true
+            'inclusive': true,
+            'inclusive_min': true,
+            'inclusive_max': true
         };
     }
   / '{' term_min:unquoted_term _* 'TO' _+ term_max:unquoted_term '}'
@@ -269,7 +271,29 @@ range_operator_exp
         return {
             'term_min': term_min,
             'term_max': term_max,
-            'inclusive': false
+            'inclusive': false,
+            'inclusive_min': false,
+            'inclusive_max': false
+        };
+    }
+  / '{' term_min:unquoted_term _* 'TO' _+ term_max:unquoted_term ']'
+    {
+        return {
+            'term_min': term_min,
+            'term_max': term_max,
+            'inclusive': false,
+            'inclusive_min': false,
+            'inclusive_max': true
+        };
+    }
+  / '[' term_min:unquoted_term _* 'TO' _+ term_max:unquoted_term '}'
+    {
+        return {
+            'term_min': term_min,
+            'term_max': term_max,
+            'inclusive': false,
+            'inclusive_min': true,
+            'inclusive_max': false
         };
     }
 
