@@ -1,0 +1,8 @@
+{
+  "spec_dir": "spec",
+  "helpers": [
+    "lib/lucene-query-parser.js"
+  ],
+  "stopSpecOnExpectationFailure": false,
+  "random": false
+}

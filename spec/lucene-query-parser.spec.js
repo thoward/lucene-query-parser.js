@@ -1,7 +1,9 @@
-if (typeof define !== 'function') { var define = require('amdefine')(module) }
+// Node
+if (typeof exports === "object" && typeof module !== "undefined") {
+    var lucenequeryparser = require('../lib/lucene-query-parser');
+}
 
-define(["../lib/lucene-query-parser.js"], function(lucenequeryparser) {
-  describe("lucenequeryparser: whitespace handling", function() {
+describe("lucenequeryparser: whitespace handling", function() {
 
     // term parsing
     it("handles empty string", function() {
@@ -23,10 +25,8 @@ define(["../lib/lucene-query-parser.js"], function(lucenequeryparser) {
         expect(results['left']['term']).toBe('Foo');
     });
 
-    function isEmpty(arr)
-    {
-        for(var i in arr)
-        {
+    function isEmpty(arr) {
+        for (var i in arr) {
             return false;
         }
         return true;
@@ -535,5 +535,4 @@ describe("lucenequeryparser: Lucene Query syntax documentation examples", functi
         expect(leftNode['right']['prefix']).toBe('+');
         expect(leftNode['field']).toBe('title');
     });
-  });
 });
