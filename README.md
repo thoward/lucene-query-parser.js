@@ -52,27 +52,16 @@ npm install lucene-query-parser
 
 ### In the Browser
 
-In the browser, use RequireJS to load the AMD compatible module. In the example below, it assumes there's a `~/vendor` directory for third-party libraries, with RequireJS in `~/vendor/requirejs/require.js` and our library in `~/vendor/lucene-query-parser/lucene-query-parser.js`.
+The library is support UMD. In the browser, use global ```lucenequeryparser``` variable or requirejs if you want.
 
 ```html
 <!DOCTYPE html>
 <html>
   <head>
     <!-- RequireJS -->
-    <script type="text/javascript" src="vendor/requirejs/require.js"></script>
-    <!-- RequireJS -->
-    <script type="text/javascript">
-      require.config({
-        baseUrl: './vendor/lucene-query-parser/'
-      });
-
-      require(['lucene-query-parser.js'], function(lucenequeryparser) {
-
-        // Use the Lucene Query Parser library here
-
+    <script type="text/javascript" src="lucene-query-parser.js"></script>
         var results = lucenequeryparser.parse('example: query');
         console.log(results);
-      });
     </script>
   </head>
   <body>
