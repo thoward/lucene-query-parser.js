@@ -17,3 +17,5 @@ node_modules
 
 npm-debug.log
 lucene-query-parser-*.tgz
+
+.idea/

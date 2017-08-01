@@ -23,6 +23,13 @@ define(["../lib/lucene-query-parser.js"], function(lucenequeryparser) {
         expect(results['left']['term']).toBe('Foo');
     });
 
+    it("handles whitespace around the colon", function() {
+      var results = lucenequeryparser.parse('Test : Foo');
+
+      expect(results['left']['field']).toBe('Test');
+      expect(results['left']['term']).toBe('Foo');
+    });
+
     function isEmpty(arr)
     {
         for(var i in arr)
