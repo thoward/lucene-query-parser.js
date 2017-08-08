@@ -66,6 +66,13 @@ describe("lucenequeryparser: term parsing", function() {
 
         expect(results['left']['term']).toBe('>now+5d');
     });
+
+    it("handles escaping", function() {
+      var results = lucenequeryparser.parse('device_model:GALAXY\\ S8\\+');
+
+      expect(results['left']['field']).toBe('device_model');
+      expect(results['left']['term']).toBe('GALAXY\\ S8\\+');
+    });
 });
 
 describe("lucenequeryparser: term prefix operators", function() {

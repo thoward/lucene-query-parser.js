@@ -213,7 +213,12 @@ unquoted_term
     }
 
 term_char
-  = '.' / [^: \t\r\n\f\{\}()"/^~\[\]]
+  = '.'
+  / '\\' escaping_char:[: \t\r\n\f\{\}()"/^~\[\]]
+    {
+        return '\\' + escaping_char;
+    }
+  / [^: \t\r\n\f\{\}()"/^~\[\]]
 
 quoted_term
   = '"' term:[^"]+ '"'
