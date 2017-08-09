@@ -209,7 +209,14 @@ term
 unquoted_term
   = term:term_char+
     {
-        return term.join('');
+        var res = term.join('');
+        if (/AND|OR|NOT|\|\||&&/.test(res)) {
+          var e = new Error('Term can not be AND, OR, NOT, ||, &&')
+          e.name = 'SyntaxError'
+          e.column = offset
+          throw e
+        }
+        return res
     }
 
 term_char

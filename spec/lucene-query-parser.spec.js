@@ -73,6 +73,12 @@ describe("lucenequeryparser: term parsing", function() {
       expect(results['left']['field']).toBe('device_model');
       expect(results['left']['term']).toBe('GALAXY\\ S8\\+');
     });
+
+  it("handles empty term with operator", function() {
+    expect(function () {
+      lucenequeryparser.parse('device_model: AND x:y');
+    }).toThrow('Term can not be AND, OR, NOT, ||, &&');
+  });
 });
 
 describe("lucenequeryparser: term prefix operators", function() {
