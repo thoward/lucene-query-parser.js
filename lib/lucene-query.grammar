@@ -5,7 +5,7 @@
  * This grammar supports many of the constructs contained in the Lucene Query Syntax.
  *
  * Supported features:
- * - conjunction operators (AND, OR, ||, &&, NOT)
+ * - conjunction operators (AND, OR, ||, &&, NOT, !)
  * - prefix operators (+, -)
  * - quoted values ("foo bar")
  * - named fields (foo:bar)
@@ -112,7 +112,7 @@ node
 
         if (right != null)
         {
-            node['operator'] = operator==''? '<implicit>' : operator[0];
+            node['operator'] = operator=='' || operator==undefined ? '<implicit>' : operator[0];
             node['right'] = right;
         }
 
@@ -136,7 +136,7 @@ field_exp
   = fieldname:fieldname? range:range_operator_exp
     {
         range['field'] =
-            fieldname == ''
+            fieldname == '' || fieldname == undefined
                 ? "<implicit>"
                 : fieldname;
 
@@ -151,7 +151,7 @@ field_exp
     {
         var fieldexp = {
             'field':
-                fieldname == ''
+                fieldname == '' || fieldname == undefined
                     ? "<implicit>"
                     : fieldname
             };
@@ -205,11 +205,25 @@ term
         }
         return result;
     }
+  / op:prefix_operator_exp? term:regexpr_term boost:boost_modifier? _*
+      {
+          var result = { 'term': term, 'regexpr': true };
+          if('' != boost)
+          {
+              result['boost'] = boost;
+          }
+          if('' != op)
+          {
+              result['prefix'] = op;
+          }
+          return result;
+      }
+
 
 unquoted_term
-  = term:term_char+
+  = term_start:term_start_char term:term_char*
     {
-        var res = term.join('');
+        var res = term_start + term.join('');
         if (/AND|OR|NOT|\|\||&&/.test(res)) {
           var e = new Error('Term can not be AND, OR, NOT, ||, &&')
           e.name = 'SyntaxError'
@@ -219,13 +233,27 @@ unquoted_term
         return res
     }
 
-term_char
-  = '.'
-  / '\\' escaping_char:[: \t\r\n\f\{\}()"/^~\[\]]
+term_start_char
+  = '.' / term_escaping_char / [^: \t\r\n\f\{\}()"+-/^~\[\]]
+
+term_escaping_char
+  = '\\' escaping_char:[: \t\r\n\f\{\}()"/^~\[\]]
     {
         return '\\' + escaping_char;
     }
-  / [^: \t\r\n\f\{\}()"/^~\[\]]
+
+term_char
+  = '+' / '-' / term_escaping_char / term_start_char
+
+regexpr_term
+  = '/' term:regexpr_char+ '/'
+    {
+        return term.join('').replace('\\/', '/');
+    }
+
+regexpr_char
+  = '.' / '\\/' / [^/]
+
 
 quoted_term
   = '"' term:[^"]+ '"'
@@ -248,7 +276,7 @@ boost_modifier
 fuzzy_modifier
   = '~' fuzziness:decimal_exp?
     {
-        return fuzziness == '' ? 0.5 : fuzziness;
+        return fuzziness == '' || fuzziness == undefined ? 0.5 : fuzziness;
     }
 
 decimal_or_int_exp
@@ -301,6 +329,7 @@ operator
   / 'NOT'
   / '||' { return 'OR'; }
   / '&&' { return 'AND'; }
+  / '!' { return 'NOT'}
 
 prefix_operator_exp
   = _* operator:prefix_operator
