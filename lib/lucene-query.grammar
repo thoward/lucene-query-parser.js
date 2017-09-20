@@ -224,7 +224,7 @@ unquoted_term
   = term_start:term_start_char term:term_char*
     {
         var res = term_start + term.join('');
-        if (/AND|OR|NOT|\|\||&&/.test(res)) {
+        if (/^(?:AND|OR|NOT|\|\||&&)$/.test(res)) {
           var e = new Error('Term can not be AND, OR, NOT, ||, &&')
           e.name = 'SyntaxError'
           e.column = offset

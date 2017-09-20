@@ -92,6 +92,12 @@ describe("lucenequeryparser: term parsing", function() {
       expect(results['left']['term']).toBe('fizz-buzz');
     });
 
+    it("parses terms with OR", function() {
+      var results = lucenequeryparser.parse('xxx:x86_OR');
+
+      expect(results['left']['term']).toBe('x86_OR');
+    });
+
     it("parses term with regular expression", function() {
       var results = lucenequeryparser.parse('/bar/');
 
