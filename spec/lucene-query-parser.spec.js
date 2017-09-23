@@ -318,13 +318,35 @@ describe("lucenequeryparser: range expressions", function() {
         expect(results['left']['inclusive']).toBe(true);
     });
 
-    it("parses inclusive range expression", function() {
+    it("parses exclusive range expression", function() {
         var results = lucenequeryparser.parse('foo:{bar TO baz}');
 
         expect(results['left']['field']).toBe('foo');
         expect(results['left']['term_min']).toBe('bar');
         expect(results['left']['term_max']).toBe('baz');
         expect(results['left']['inclusive']).toBe(false);
+    });
+
+    it("parses inclusive/exclusive range expression", function() {
+      var results = lucenequeryparser.parse('foo:[bar TO baz}');
+
+      expect(results['left']['field']).toBe('foo');
+      expect(results['left']['term_min']).toBe('bar');
+      expect(results['left']['term_max']).toBe('baz');
+      expect(results['left']['inclusive']).toBe(false);
+      expect(results['left']['inclusive_min']).toBe(true);
+      expect(results['left']['inclusive_max']).toBe(false);
+    });
+
+    it("parses inclusive/exclusive range expression", function() {
+      var results = lucenequeryparser.parse('foo:{bar TO baz]');
+
+      expect(results['left']['field']).toBe('foo');
+      expect(results['left']['term_min']).toBe('bar');
+      expect(results['left']['term_max']).toBe('baz');
+      expect(results['left']['inclusive']).toBe(false);
+      expect(results['left']['inclusive_min']).toBe(false);
+      expect(results['left']['inclusive_max']).toBe(true);
     });
 });
 
