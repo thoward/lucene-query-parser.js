@@ -38,6 +38,8 @@ console.log(rightNode['operator']);         // OR
 console.log(rightNode['right']['term']);    // bar
 ```
 
+For more detailed docs, check out [the wiki](https://github.com/thoward/lucene-query-parser.js/wiki).
+
 ## Installation
 
 ### On the Command-Line
