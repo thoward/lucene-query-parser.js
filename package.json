@@ -40,7 +40,7 @@
     "amdefine": ">=0.0.2"
   },
   "devDependencies": {
-    "pegjs": "0.7.x",
-    "jasmine-node": "1.10.x"
+    "jasmine-node": "1.10.x",
+    "pegjs": "0.8.x"
   }
 }
