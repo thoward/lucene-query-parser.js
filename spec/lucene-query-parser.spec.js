@@ -23,6 +23,13 @@ define(["../lib/lucene-query-parser.js"], function(lucenequeryparser) {
         expect(results['left']['term']).toBe('Foo');
     });
 
+    it("handles whitespace around the colon", function() {
+      var results = lucenequeryparser.parse('Test : Foo');
+
+      expect(results['left']['field']).toBe('Test');
+      expect(results['left']['term']).toBe('Foo');
+    });
+
     function isEmpty(arr)
     {
         for(var i in arr)
@@ -58,6 +65,51 @@ describe("lucenequeryparser: term parsing", function() {
         var results = lucenequeryparser.parse('published_at:>now+5d');
 
         expect(results['left']['term']).toBe('>now+5d');
+    });
+
+    it("handles escaping", function() {
+      var results = lucenequeryparser.parse('device_model:GALAXY\\ S8\\+');
+
+      expect(results['left']['field']).toBe('device_model');
+      expect(results['left']['term']).toBe('GALAXY\\ S8\\+');
+    });
+
+    it("handles empty term with operator", function() {
+      expect(function () {
+        lucenequeryparser.parse('device_model: AND x:y');
+      }).toThrow('Term can not be AND, OR, NOT, ||, &&');
+    });
+
+    it("parses terms with +", function() {
+      var results = lucenequeryparser.parse('fizz+buzz');
+
+      expect(results['left']['term']).toBe('fizz+buzz');
+    });
+
+    it("parses terms with -", function() {
+      var results = lucenequeryparser.parse('fizz-buzz');
+
+      expect(results['left']['term']).toBe('fizz-buzz');
+    });
+
+    it("parses terms with OR", function() {
+      var results = lucenequeryparser.parse('xxx:x86_OR');
+
+      expect(results['left']['term']).toBe('x86_OR');
+    });
+
+    it("parses term with regular expression", function() {
+      var results = lucenequeryparser.parse('/bar/');
+
+      expect(results['left']['term']).toBe('bar');
+      expect(results['left']['regexpr']).toBe(true);
+    });
+
+    it("parses term with regular expression containing /", function() {
+      var results = lucenequeryparser.parse('/fizz\\/buzz/');
+
+      expect(results['left']['term']).toBe('fizz/buzz');
+      expect(results['left']['regexpr']).toBe(true);
     });
 });
 
@@ -216,6 +268,14 @@ describe("lucenequeryparser: conjunction operators", function() {
         expect(results['operator']).toBe('OR');
         expect(results['right']['term']).toBe('buzz');
     });
+
+    it("parses explicit conjunction operator (!)", function() {
+        var results = lucenequeryparser.parse('fizz ! buzz');
+
+        expect(results['left']['term']).toBe('fizz');
+        expect(results['operator']).toBe('NOT');
+        expect(results['right']['term']).toBe('buzz');
+    });
 });
 
 describe("lucenequeryparser: parentheses groups", function() {
@@ -258,13 +318,35 @@ describe("lucenequeryparser: range expressions", function() {
         expect(results['left']['inclusive']).toBe(true);
     });
 
-    it("parses inclusive range expression", function() {
+    it("parses exclusive range expression", function() {
         var results = lucenequeryparser.parse('foo:{bar TO baz}');
 
         expect(results['left']['field']).toBe('foo');
         expect(results['left']['term_min']).toBe('bar');
         expect(results['left']['term_max']).toBe('baz');
         expect(results['left']['inclusive']).toBe(false);
+    });
+
+    it("parses inclusive/exclusive range expression", function() {
+      var results = lucenequeryparser.parse('foo:[bar TO baz}');
+
+      expect(results['left']['field']).toBe('foo');
+      expect(results['left']['term_min']).toBe('bar');
+      expect(results['left']['term_max']).toBe('baz');
+      expect(results['left']['inclusive']).toBe(false);
+      expect(results['left']['inclusive_min']).toBe(true);
+      expect(results['left']['inclusive_max']).toBe(false);
+    });
+
+    it("parses inclusive/exclusive range expression", function() {
+      var results = lucenequeryparser.parse('foo:{bar TO baz]');
+
+      expect(results['left']['field']).toBe('foo');
+      expect(results['left']['term_min']).toBe('bar');
+      expect(results['left']['term_max']).toBe('baz');
+      expect(results['left']['inclusive']).toBe(false);
+      expect(results['left']['inclusive_min']).toBe(false);
+      expect(results['left']['inclusive_max']).toBe(true);
     });
 });
 
