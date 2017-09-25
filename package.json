@@ -1,7 +1,7 @@
 {
   "name": "lucene-query-parser",
-  "version": "1.0.1",
-  "description": "Lucene Query Parser for Javascript created using PEG.js",
+  "version": "1.0.7",
+  "description": "Lucene Query Parser for JavaScript created using PEG.js",
   "main": "lib/lucene-query-parser.js",
   "scripts": {
     "build": "PEG_OUT=`cat lib/lucene-query.grammar | node_modules/pegjs/bin/pegjs` && printf \"if (typeof define !== 'function') { var define = require('amdefine')(module) };\n\ndefine([], function() { \nvar module = {};\n%s\nreturn module.exports;\n});\n\"  \"$PEG_OUT\" > ./lib/lucene-query-parser.js",
@@ -24,11 +24,13 @@
     "url": "http://github.com/thoward"
   },
   "contributors": [
-    {
-      "name": "Eugeny Vlasenko",
-      "email": "mahnunchik@gmail.com",
-      "url": "http://mahnunchik.tumblr.com/"
-    }
+    "Troy Howard <thoward37@gmail.com> (https://github.com/thoward)",
+    "Bastien Vaucher (https://github.com/bastien)",
+    "Bruce He <heganjie@gmail.com> (https://github.com/HeGanjie)",
+    "Evgeny <mahnunchik@gmail.com> (https://github.com/mahnunchik)",
+    "matthiasg <m.goetzke@curasystems.de> (https://github.com/matthiasg)",
+    "Cameron Davison <cameron.davison@gmail.com> (https://github.com/a86c6f7964)",
+    "Matthieu Maitre (https://github.com/mmaitre314)"
   ],
   "license": "Apache 2.0",
   "bugs": {
