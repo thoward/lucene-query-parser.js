@@ -1,4 +1,4 @@
-# Lucene Query Parser for JavaScript
+# Lucene Query Parser for JavaScript [![Build Status](https://travis-ci.org/thoward/lucene-query-parser.js.svg?branch=master)](https://travis-ci.org/thoward/lucene-query-parser.js)
 
 This is an implementation of the Lucene Query Parser developed using PEG.js.
 
