@@ -618,4 +618,14 @@ describe("lucenequeryparser: Lucene Query syntax documentation examples", functi
         expect(leftNode['field']).toBe('title');
     });
   });
+
+  xdescribe("lucenequeryparser: pending tests", function() {
+    // see issue: https://github.com/thoward/lucene-query-parser.js/issues/1
+    it("handles escaped quotes", function() {
+      var results = lucenequeryparser.parse('foo:"bar \"baz\""');
+
+      expect(results['left']['field']).toBe('foo');
+      expect(results['left']['term']).toBe('bar \"baz\"');
+    });
+  });
 });
