@@ -4,27 +4,14 @@
     <title>Jasmine Test Runner</title>
 
     <!-- Jasmine -->
-    <link rel="stylesheet" type="text/css" href="../node_modules/jasmine-node/node_modules/jasmine-reporters/ext/jasmine.css"/>
-    <script type="text/javascript" src="../node_modules/jasmine-node/node_modules/jasmine-reporters/ext/jasmine.js"></script>
-    <script type="text/javascript" src="../node_modules/jasmine-node/node_modules/jasmine-reporters/ext/jasmine-html.js"></script>
+    <link rel="stylesheet" type="text/css" href="../node_modules/jasmine-core/lib/jasmine-core/jasmine.css"/>
+    <script type="text/javascript" src="../node_modules/jasmine-core/lib/jasmine-core/jasmine.js"></script>
+    <script type="text/javascript" src="../node_modules/jasmine-core/lib/jasmine-core/jasmine-html.js"></script>
+    <script type="text/javascript" src="../node_modules/jasmine-core/lib/jasmine-core/boot.js"></script>
 
     <!-- RequireJS -->
-    <script type="text/javascript" src="../vendor/require.js"></script>
-
+    <script data-main="specRunner.js" src="../vendor/require.js"></script>
   </head>
-
   <body>
-    <script type="text/javascript">
-      require.config({
-        baseUrl: './'
-      });
-
-      require([
-        '../spec/lucene-query-parser.spec.js'
-      ], function() {
-        jasmine.getEnv().addReporter(new jasmine.TrivialReporter());
-        jasmine.getEnv().execute();
-      });
-    </script>
   </body>
 </html>

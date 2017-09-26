@@ -30,10 +30,8 @@ define(["../lib/lucene-query-parser.js"], function(lucenequeryparser) {
       expect(results['left']['term']).toBe('Foo');
     });
 
-    function isEmpty(arr)
-    {
-        for(var i in arr)
-        {
+    function isEmpty(arr) {
+        for(var i in arr) {
             return false;
         }
         return true;
@@ -77,7 +75,7 @@ describe("lucenequeryparser: term parsing", function() {
     it("handles empty term with operator", function() {
       expect(function () {
         lucenequeryparser.parse('device_model: AND x:y');
-      }).toThrow('Term can not be AND, OR, NOT, ||, &&');
+      }).toThrow(new SyntaxError('Term can not be AND, OR, NOT, ||, &&'));
     });
 
     it("parses terms with +", function() {

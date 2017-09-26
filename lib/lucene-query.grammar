@@ -227,7 +227,7 @@ unquoted_term
         if (/^(?:AND|OR|NOT|\|\||&&)$/.test(res)) {
           var e = new Error('Term can not be AND, OR, NOT, ||, &&')
           e.name = 'SyntaxError'
-          e.column = offset
+          e.column = location
           throw e
         }
         return res

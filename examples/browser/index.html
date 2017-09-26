@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <!-- Load RequireJS -->
-  <script type="text/javascript" src="../../vendor/require.js"></script>
+  <!-- Load lucenequeryparser -->
+  <script type="text/javascript" src="../../lib/lucene-query-parser.js"></script>
 </head>
 <body>
   <h3>Query Text</h3>
@@ -23,22 +23,18 @@
 
   <script type="text/javascript">
     function parse_query() {
+      // get query text
+      var query_text = document.getElementById('query_text').value;
 
-      require(['../../lib/lucene-query-parser.js'], function(parser) {
+      // parse query
+      var results = lucenequeryparser.parse(query_text);
 
-        // get query text
-        var query_text = document.getElementById('query_text').value;
+      // convert to pretty-printed JSON
+      results = JSON.stringify(results, undefined, 2);
+      results = results.replace(/\n/g, "<br>").replace(/[ ]/g, "&nbsp;");
 
-        // parse query
-        var results = parser.parse(query_text);
-
-        // convert to pretty-printed JSON
-        results = JSON.stringify(results, undefined, 2);
-        results = results.replace(/\n/g, "<br>").replace(/[ ]/g, "&nbsp;");
-
-        // display results
-        document.getElementById('parser_output').innerHTML = results
-      });
+      // display results
+      document.getElementById('parser_output').innerHTML = results
     }
 
     parse_query();
