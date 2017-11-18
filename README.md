@@ -89,7 +89,7 @@ Unit tests are built with [Jasmine](http://pivotal.github.com/jasmine/).
 
 ### On the Command-line
 
-To run the unit tests on the command line, using node:
+To run the unit tests on the command-line, using node:
 
 ```
 npm test
