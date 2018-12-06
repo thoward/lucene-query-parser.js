@@ -254,12 +254,14 @@ regexpr_term
 regexpr_char
   = '.' / '\\/' / [^/]
 
-
 quoted_term
-  = '"' term:[^"]+ '"'
+  = '"' term:non_quote_char+ '"'
     {
-        return term.join('');
+        return term.join('').replace(/\\"/g, '"');
     }
+
+non_quote_char
+  = '\\"' / [^"]
 
 proximity_modifier
   = '~' proximity:int_exp
