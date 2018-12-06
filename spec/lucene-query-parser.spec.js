@@ -72,6 +72,13 @@ describe("lucenequeryparser: term parsing", function() {
       expect(results['left']['term']).toBe('GALAXY\\ S8\\+');
     });
 
+    it("handles escaped quotes within quoted terms", function() {
+        var results = lucenequeryparser.parse('foo:"bar \\"baz\\""');
+
+        expect(results['left']['field']).toBe('foo');
+        expect(results['left']['term']).toBe('bar "baz"');
+    });
+
     it("handles empty term with operator", function() {
       expect(function () {
         lucenequeryparser.parse('device_model: AND x:y');
@@ -618,12 +625,5 @@ describe("lucenequeryparser: Lucene Query syntax documentation examples", functi
   });
 
   xdescribe("lucenequeryparser: pending tests", function() {
-    // see issue: https://github.com/thoward/lucene-query-parser.js/issues/1
-    it("handles escaped quotes", function() {
-      var results = lucenequeryparser.parse('foo:"bar \"baz\""');
-
-      expect(results['left']['field']).toBe('foo');
-      expect(results['left']['term']).toBe('bar \"baz\"');
-    });
   });
 });
